@@ -11,16 +11,16 @@ docker rm -f $(docker ps -qa)
 
 ## build container with no cache
 ```
-docker-compose build --no-cache --progress=plain
+docker compose build --no-cache --progress=plain
 ```
 ## start iris container
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ## open iris terminal in docker
 ```
-docker exec iris iris session iris -U IRISAPP
+docker exec iris iris session iris -U USER
 ```
 
 
