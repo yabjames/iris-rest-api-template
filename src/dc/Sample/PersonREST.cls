@@ -6,6 +6,7 @@ Parameter Version = "1.0.6";
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
+<!-- <Route Url="/hello" Method="GET" Call="Hello" Cors="true"/> -->
 <!-- Server Info -->
 <Route Url="/" Method="GET" Call="GetInfo" Cors="true"/>
 <!-- Get all records of Person class -->
@@ -25,6 +26,13 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 
 
 </Routes>
+}
+
+ClassMethod Hello() As %Status
+{
+
+    Set %response.Status = 200
+    do ##class(%REST.Impl).%WriteResponse({"Hello":"World"}.%ToJSON())
 }
 
 /// PersonsREST general information
@@ -48,12 +56,12 @@ ClassMethod GetAllPersons() As %Status
     Set %response.ContentType = ..#CONTENTTYPEJSON
     Write "["
     if rset.%Next() {
-        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)    
+        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)
         Do person.%JSONExport()
     }
-    While rset.%Next() {   
+    While rset.%Next() {
         Write ","
-        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)    
+        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)
         Do person.%JSONExport()
     }
     Write "]"
@@ -136,7 +144,7 @@ ClassMethod DeletePerson(id As %Integer) As %Status
     Quit tSC
 }
 
-ClassMethod CreateRandomPersons(amount As %Integer) as %Status
+ClassMethod CreateRandomPersons(amount As %Integer) As %Status
 {
 #dim tSC As %Status = $$$OK
     Set %response.ContentType = ..#CONTENTTYPEJSON
