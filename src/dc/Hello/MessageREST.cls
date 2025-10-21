@@ -8,6 +8,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Routes>
     <Route Url="/" Method="GET" Call="getAllMessages"/>
     <Route Url="/contents" Method="GET" Call="getAllMessageContents"/>
+    <Route Url="/contents/:limit" Method="GET" Call="getSomeMessageContents"/>
     <!-- using query parameter for timestamp -->
     <Route Url="/timestamp" Method="GET" Call="getMessageFromTimeStamp"/>
     <Route Url="/create/random/:amount" Method="POST" Call="createRandomMessage"/>
@@ -51,6 +52,44 @@ ClassMethod getMessageFromTimeStamp() As %Status
     {
         set status = ex.Code
     }
+    return status
+}
+
+/**
+
+*/
+ClassMethod getSomeMessageContents(limit As %Integer) As %Status
+{
+    #dim status As %Status = $$$OK
+    set %response.ContentType = ..#CONTENTTYPEJSON
+
+    set query = "SELECT id,content FROM dc_Hello.Message LIMIT "_limit
+    set tStatement = ##class(%SQL.Statement).%New()
+    set qStatus = tStatement.%Prepare(query)
+
+    if qStatus'=1 {write "%Prepare failed:" do $System.Status.DisplayError(qStatus) return qStatus}
+
+    set rset = tStatement.%Execute()
+
+    write "["
+    set first = 1
+    while rset.%Next() {
+
+        // write comma after the first record
+        write:('first) ","
+        set first = 0
+
+        ; write {"id": (+rset.id), "content":(rset.content)}.%ToJSON()
+        write "{ ""id"":", rset.id, ",""content"": """,rset.content, """}"
+    }
+    write "]"
+
+    if (rset.%SQLCODE < 0) {
+        do %response.SetStatus(500)
+        write { "error": (rset.%SQLCODE), "message": (rset.%Message)}.%ToJSON()
+        return $$$NOTOK
+    }
+
     return status
 }
 
