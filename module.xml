@@ -6,8 +6,8 @@
       <Version>1.1.0</Version>
       <Packaging>module</Packaging>
       <SourcesRoot>src</SourcesRoot>
-      <Resource Name="dc.Sample.PKG"/>
-      <Resource Name="dc.Hello.PKG"/>
+      <Resource Name="ehr.cls.PKG"/>
+      <Resource Name="ehr.REST.PKG"/>
       <Dependencies>
         <ModuleReference>
           <Name>swagger-ui</Name>
@@ -16,7 +16,7 @@
       </Dependencies>
        <CSPApplication 
         Url="/crud"
-        DispatchClass="dc.Sample.PersonREST"
+        DispatchClass="ehr.cls.PersonREST"
         MatchRoles=":{$dbrole}"
         PasswordAuthEnabled="1"
         UnauthenticatedEnabled="0"
@@ -27,7 +27,7 @@
 
        <CSPApplication 
         Url="/api/demo"
-        DispatchClass="dc.Hello.Hello"
+        DispatchClass="ehr.cls.Hello"
         MatchRoles=":{$dbrole}"
         PasswordAuthEnabled="1"
         UnauthenticatedEnabled="0"
@@ -38,13 +38,24 @@
 
        <CSPApplication 
         Url="/api/message"
-        DispatchClass="dc.Hello.MessageREST"
+        DispatchClass="ehr.cls.MessageREST"
         MatchRoles=":{$dbrole}"
         PasswordAuthEnabled="1"
         UnauthenticatedEnabled="0"
         Recurse="1"
         UseCookies="2"
         CookiePath="/api/message"
+       />
+
+      <CSPApplication 
+        Url="/api/patient"
+        DispatchClass="ehr.cls.PatientREST"
+        MatchRoles=":{$dbrole}"
+        PasswordAuthEnabled="1"
+        UnauthenticatedEnabled="0"
+        Recurse="1"
+        UseCookies="2"
+        CookiePath="/api/patient"
        />
     </Module>
     

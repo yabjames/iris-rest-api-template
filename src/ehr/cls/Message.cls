@@ -1,4 +1,4 @@
-Class dc.Hello.Message Extends (%Persistent, %JSON.Adaptor, %Populate)
+Class ehr.cls.Message Extends (%Persistent, %JSON.Adaptor, %Populate)
 {
 
 Property content As %String;
@@ -23,11 +23,11 @@ Storage Default
 <Value>author</Value>
 </Value>
 </Data>
-<DataLocation>^dc.Hello.MessageD</DataLocation>
+<DataLocation>^ehr.cls.MessageD</DataLocation>
 <DefaultData>MessageDefaultData</DefaultData>
-<IdLocation>^dc.Hello.MessageD</IdLocation>
-<IndexLocation>^dc.Hello.MessageI</IndexLocation>
-<StreamLocation>^dc.Hello.MessageS</StreamLocation>
+<IdLocation>^ehr.cls.MessageD</IdLocation>
+<IndexLocation>^ehr.cls.MessageI</IndexLocation>
+<StreamLocation>^ehr.cls.MessageS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
 

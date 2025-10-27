@@ -1,4 +1,4 @@
-Class dc.Hello.Hello Extends Sample.REST.Base
+Class ehr.cls.Hello Extends ehr.REST.Base
 {
 
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]

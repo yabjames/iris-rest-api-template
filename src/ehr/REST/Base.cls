@@ -1,4 +1,4 @@
-Class Sample.REST.Base Extends %CSP.REST [ System = 3 ]
+Class ehr.REST.Base Extends %CSP.REST [ System = 3 ]
 {
 
 Parameter CHARSET = "utf-8";

@@ -1,15 +1,16 @@
 ## intersystems-iris-rest-api-template
 
- [![Gitter](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)](https://openexchange.intersystems.com/package/iris-rest-api-template)
- [![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Firis-rest-api-template&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Firis-rest-api-template)
- <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/intersystems-community/iris-rest-api-template">
+[![Gitter](https://img.shields.io/badge/Available%20on-Intersystems%20Open%20Exchange-00b2a9.svg)](https://openexchange.intersystems.com/package/iris-rest-api-template)
+[![Quality Gate Status](https://community.objectscriptquality.com/api/project_badges/measure?project=intersystems_iris_community%2Firis-rest-api-template&metric=alert_status)](https://community.objectscriptquality.com/dashboard?id=intersystems_iris_community%2Firis-rest-api-template)
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/intersystems-community/iris-rest-api-template">
 
 This is a template of a REST API application built with ObjectScript in InterSystems IRIS.
-It also has OPEN API spec, 
+It also has OPEN API spec,
 can be developed with Docker and VSCode,
 can ve deployed as ZPM module.
 
 ## Prerequisites
+
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
 
 ## Installation with ZPM
@@ -35,25 +36,25 @@ $ docker-compose up -d --build
 or open the folder in VSCode and do the following:
 ![rest](https://user-images.githubusercontent.com/2781759/78183327-63569800-7470-11ea-8561-c3b547ce9001.gif)
 
-
 ## How to Work With it
 
 This template creates /crud REST web-application on IRIS which implements 4 types of communication: GET, POST, PUT and DELETE aka CRUD operations.
-These interface works with a sample persistent class dc.Sample.Person.
+These interface works with a sample persistent class ehr.cls.Person.
 
 Open http://localhost:52773/swagger-ui/index.html to test the REST API
 
 # Testing GET requests
 
-To test GET you need to have some data. You can create it with POST request (see below), or you can create some fake testing data. to do that open IRIS terminal or web terminal on /localhost:52773/terminal/  and call:
+To test GET you need to have some data. You can create it with POST request (see below), or you can create some fake testing data. to do that open IRIS terminal or web terminal on /localhost:52773/terminal/ and call:
 
 ```
-USER>do ##class(dc.Sample.Person).AddTestData(10)
+USER>do ##class(ehr.cls.Person).AddTestData(10)
 ```
-This will create 10 random records in dc.Sample.Person class.
 
+This will create 10 random records in ehr.cls.Person class.
 
 You can get swagger Open API 2.0 documentation on:
+
 ```
 localhost:52773/crud/_spec
 ```
@@ -89,7 +90,7 @@ Adjust the authorisation if needed - it is basic for container with default logi
 
 and send the POST request to localhost:52773/crud/persons/
 
-This will create a record in dc.Sample.Person class of IRIS.
+This will create a record in ehr.cls.Person class of IRIS.
 
 # Testing PUT request
 
@@ -101,6 +102,7 @@ E.g. we want to change the record with id=5. Prepare in Postman the JSON in raw 
 ```
 
 and send the put request to:
+
 ```
 localhost:52773/crud/persons/5
 ```
@@ -114,6 +116,7 @@ localhost:52773/crud/persons/5
 ```
 
 ## How to start coding
+
 This repository is ready to code in VSCode with ObjectScript plugin.
 Install [VSCode](https://code.visualstudio.com/) and [ObjectScript](https://marketplace.visualstudio.com/items?itemName=daimor.vscode-objectscript) plugin and open the folder in VSCode.
 Open /src/cls/PackageSample/ObjectScript.cls class and try to make changes - it will be compiled in running IRIS docker container.
@@ -135,4 +138,5 @@ Use the related docker-compose.yml to easily setup additional parametes like por
 Settings file to let you immedietly code in VSCode with [VSCode ObjectScript plugin](https://marketplace.visualstudio.com/items?itemName=daimor.vscode-objectscript))
 
 # .vscode/launch.json
+
 Config file if you want to debug with VSCode ObjectScript

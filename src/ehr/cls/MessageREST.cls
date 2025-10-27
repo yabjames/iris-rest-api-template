@@ -1,4 +1,4 @@
-Class dc.Hello.MessageREST Extends %CSP.REST [ DependsOn = dc.Hello.Message ]
+Class ehr.cls.MessageREST Extends %CSP.REST [ DependsOn = ehr.cls.Message ]
 {
 
 Parameter Version = "1.0.6";
@@ -21,17 +21,17 @@ ClassMethod getAllMessages() As %Status
     set %response.ContentType = ..#CONTENTTYPEJSON
 
     ; the result set
-    set rset = ##class(dc.Hello.Message).ExtentFunc()
+    set rset = ##class(ehr.cls.Message).ExtentFunc()
 
     ; the json response body stream
     write "["
     if (rset.%Next()) {
-        set message = ##class(dc.Hello.Message).%OpenId(rset.ID)
+        set message = ##class(ehr.cls.Message).%OpenId(rset.ID)
         do message.%JSONExport()
     }
     while (rset.%Next()) {
         write ","
-        set message = ##class(dc.Hello.Message).%OpenId(rset.ID)
+        set message = ##class(ehr.cls.Message).%OpenId(rset.ID)
         do message.%JSONExport()
     }
     write "]"
@@ -63,7 +63,7 @@ ClassMethod getSomeMessageContents(limit As %Integer) As %Status
     #dim status As %Status = $$$OK
     set %response.ContentType = ..#CONTENTTYPEJSON
 
-    set query = "SELECT id,content FROM dc_Hello.Message LIMIT "_limit
+    set query = "SELECT id,content FROM ehr_cls.Message LIMIT "_limit
     set tStatement = ##class(%SQL.Statement).%New()
     set qStatus = tStatement.%Prepare(query)
 
@@ -80,7 +80,11 @@ ClassMethod getSomeMessageContents(limit As %Integer) As %Status
         set first = 0
 
         ; write {"id": (+rset.id), "content":(rset.content)}.%ToJSON()
-        write "{ ""id"":", rset.id, ",""content"": """,rset.content, """}"
+        set id = """id"": "
+        set content = """content"": "
+        write "{ "_content_rset.id_","_id_""""_rset.content_""" }"
+        #; set Q = """"
+        #; write "{ "_Q_"id"_Q_":"_rset.id_","_Q_"content"_Q_":"_Q_rset.content_Q_" }"
     }
     write "]"
 
@@ -123,7 +127,7 @@ ClassMethod getAllMessageContents() As %Status
     write "]"
 
     return status
-    #; Set rs = ##class(%SQL.Statement).%ExecDirect(,"SELECT * FROM dc.Hello.Message")
+    #; Set rs = ##class(%SQL.Statement).%ExecDirect(,"SELECT * FROM ehr.cls.Message")
     #; While rs.%Next() {
     #;     Write rs.ID, !
     #; }
@@ -136,7 +140,7 @@ ClassMethod createRandomMessage(amount As %Integer = 1) As %Status
 
     try
     {
-    set allowed = ##class(dc.Hello.Message).AddTestData(amount)
+    set allowed = ##class(ehr.cls.Message).AddTestData(amount)
         $$$ThrowOnError(allowed)
     }
     catch (ex)

@@ -1,4 +1,4 @@
-Class dc.Sample.PersonREST Extends Sample.REST.Base
+Class ehr.cls.PersonREST Extends ehr.REST.Base
 {
 
 Parameter Version = "1.0.6";
@@ -45,30 +45,30 @@ ClassMethod GetInfo() As %Status
   RETURN ..%ProcessResult($$$OK, info)
 }
 
-/// Retreive all the records of dc.Sample.Person
+/// Retreive all the records of ehr.cls.Person
 ClassMethod GetAllPersons() As %Status
 {
 
     #dim tSC As %Status = $$$OK
 
-    Set rset = ##class(dc.Sample.Person).ExtentFunc()
+    Set rset = ##class(ehr.cls.Person).ExtentFunc()
 
     Set %response.ContentType = ..#CONTENTTYPEJSON
     Write "["
     if rset.%Next() {
-        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)
+        Set person = ##class(ehr.cls.Person).%OpenId(rset.ID)
         Do person.%JSONExport()
     }
     While rset.%Next() {
         Write ","
-        Set person = ##class(dc.Sample.Person).%OpenId(rset.ID)
+        Set person = ##class(ehr.cls.Person).%OpenId(rset.ID)
         Do person.%JSONExport()
     }
     Write "]"
     Quit tSC
 }
 
-/// Return one record fo dc.Sample.Person
+/// Return one record fo ehr.cls.Person
 ClassMethod GetPerson(id As %Integer) As %Status
 {
 	#dim tSC As %Status = $$$OK
@@ -78,7 +78,7 @@ ClassMethod GetPerson(id As %Integer) As %Status
     #; Set the response header to plain text
     Set %response.ContentType = ..#CONTENTTYPEJSON
 
-    Set person = ##class(dc.Sample.Person).%OpenId(id)
+    Set person = ##class(ehr.cls.Person).%OpenId(id)
 
     If '$IsObject(person) Quit ..Http404()
 
@@ -87,12 +87,12 @@ ClassMethod GetPerson(id As %Integer) As %Status
     Quit tSC
 }
 
-/// Creates a new dc.Sample.Person record
+/// Creates a new ehr.cls.Person record
 ClassMethod CreatePerson() As %Status
 {
 	#dim tSC As %Status = $$$OK
     #dim e As %Exception.AbstractException
-    Set person = ##class(dc.Sample.Person).%New()
+    Set person = ##class(ehr.cls.Person).%New()
     Set data=%request.Content
 
 
@@ -107,12 +107,12 @@ ClassMethod CreatePerson() As %Status
     Quit tSC
 }
 
-/// Update a record in dc.Sample.Person with id
+/// Update a record in ehr.cls.Person with id
 ClassMethod UpdatePerson(id As %Integer) As %Status
 {
 	#dim tSC As %Status = $$$OK
     #dim e As %Exception.AbstractException
-    Set person = ##class(dc.Sample.Person).%OpenId(id)
+    Set person = ##class(ehr.cls.Person).%OpenId(id)
     If '$IsObject(person) Return ..Http404()
     Set data=%request.Content
 
@@ -127,12 +127,12 @@ ClassMethod UpdatePerson(id As %Integer) As %Status
     Quit tSC
 }
 
-/// Delete a record with id in dc.Sample.Person
+/// Delete a record with id in ehr.cls.Person
 ClassMethod DeletePerson(id As %Integer) As %Status
 {
 	#dim tSC As %Status = $$$OK
     #dim e As %Exception.AbstractException
-    Set person = ##class(dc.Sample.Person).%OpenId(id)
+    Set person = ##class(ehr.cls.Person).%OpenId(id)
     If '$IsObject(person) Return ..Http404()
 
     $$$TOE(tSC,person.%DeleteId(id))
@@ -150,7 +150,7 @@ ClassMethod CreateRandomPersons(amount As %Integer) As %Status
     Set %response.ContentType = ..#CONTENTTYPEJSON
 
     Try {
-        set status = ##class(dc.Sample.Person).AddTestData(amount)
+        set status = ##class(ehr.cls.Person).AddTestData(amount)
         $$$ThrowOnError(status)
         Set message = "Created "_amount_" random persons in Sample.Person data"
     } Catch(ex) {
