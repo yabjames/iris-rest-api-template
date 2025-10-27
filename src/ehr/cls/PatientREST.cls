@@ -19,30 +19,37 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 ClassMethod getAllPatients() As %Status
 {
     #dim status As %Status = $$$OK
-    set %response.ContentType = ..#CONTENTTYPETEXT
+    set %response.ContentType = ..#CONTENTTYPEJSON
 
     #; &sql(DECLARE C1 CURSOR FOR
     #; SELECT p.id, p.FirstName, p.LastName, h.VisitDate
     #; INTO :id,:FirstName,:LastName,:VisitDate
     #; FROM ehr_cls.HospitalRecord h
     #; JOIN ehr_cls.Patient p ON h.Patient = p.id)
-    &sql(DECLARE C1 CURSOR FOR
-    SELECT Patient->id, Patient->FirstName, Patient->LastName, VisitDate
-    INTO :id,:FirstName,:LastName,:VisitDate
-    FROM ehr_cls.HospitalRecord
-    )
 
-     &sql(OPEN C1)
-      QUIT:(SQLCODE'=0)
-    &sql(FETCH C1)
+    #; &sql(DECLARE C1 CURSOR FOR
+    #; SELECT Patient->id, Patient->FirstName, Patient->LastName, VisitDate
+    #; INTO :id,:FirstName,:LastName,:VisitDate
+    #; FROM ehr_cls.HospitalRecord
+    #; )
 
-    While (SQLCODE = 0) {
+    #;  &sql(OPEN C1)
+    #;   QUIT:(SQLCODE'=0)
+    #; &sql(FETCH C1)
 
-        Write id, ":  ", FirstName,LastName,VisitDate,!        
-        &sql(FETCH C1)
-    }
+    #; While (SQLCODE = 0) {
+
+    #;     Write id, ":  ", FirstName,LastName,VisitDate,!        
+    #;     &sql(FETCH C1)
+    #; }
     
-    &sql(CLOSE C1)
+    #; &sql(CLOSE C1)
+
+    set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT Patient->id, Patient->FirstName, Patient->LastName, VisitDate FROM ehr_cls.HospitalRecord")
+        while rs.%Next() {
+            #; write rs.id, rs.FirstName, rs.LastName, rs.VisitDate,!
+            write {"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName), "visitDate": (rs.VisitDate)}.%ToJSON()
+        }
 
     return status
 }
