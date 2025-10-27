@@ -45,10 +45,10 @@ ClassMethod getAllPatients() As %Status
     
     #; &sql(CLOSE C1)
 
-    set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT Patient->id, Patient->FirstName, Patient->LastName, VisitDate FROM ehr_cls.HospitalRecord")
+    set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT id, FirstName, LastName FROM ehr_cls.Patient")
+        if (rs.%SQLCODE'=0) return rs.%SQLCODE
         while rs.%Next() {
-            #; write rs.id, rs.FirstName, rs.LastName, rs.VisitDate,!
-            write {"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName), "visitDate": (rs.VisitDate)}.%ToJSON()
+            write {"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName) }.%ToJSON()
         }
 
     return status
@@ -65,11 +65,11 @@ ClassMethod createPatient() As %Status
      set patient.LastName = %request.Data("LastName", 1)
      set status = patient.%Save()
 
-     set historyRecord = ##class(ehr.cls.HospitalRecord).%New()
-     set historyRecord.VisitDate = 1
-     set historyRecordId = historyRecord.%Id()
-     set historyRecord.Patient = patient
-     do historyRecord.%Save()
+    #;  set historyRecord = ##class(ehr.cls.HospitalRecord).%New()
+    #;  set historyRecord.VisitDate = 1
+    #;  set historyRecordId = historyRecord.%Id()
+    #;  set historyRecord.Patient = patient
+    #;  do historyRecord.%Save()
 
 
      // Save to database (on disk)
