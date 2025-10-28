@@ -1,7 +1,7 @@
 Class ehr.cls.HospitalRecord Extends %Persistent [ DependsOn = ehr.cls.Patient ]
 {
 
-Property VisitDate As %Integer;
+Property VisitDate As %String;
 
 Relationship Patient As ehr.cls.Patient [ Cardinality = one, Inverse = HospitalRecord, Required ];
 
