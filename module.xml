@@ -13,6 +13,10 @@
           <Name>swagger-ui</Name>
           <Version>1.*.*</Version>
         </ModuleReference>
+        <ModuleReference>
+          <Name>tz</Name>
+          <Version>1.0.0</Version>
+        </ModuleReference>
       </Dependencies>
        <CSPApplication 
         Url="/crud"
