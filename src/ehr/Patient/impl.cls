@@ -1,5 +1,5 @@
 /// Business logic class defined by OpenAPI in ehr.Patient.spec<br/>
-/// Updated Oct 29, 2025 17:06:15
+/// Updated Oct 29, 2025 17:37:58
 Class ehr.Patient.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
@@ -38,6 +38,22 @@ ClassMethod getAllPatients() As %Stream.Object
             set result=result.%Push({"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName)})
         }
     return result
+}
+
+/// Send data to create a Patient on disk<br/>
+/// The method arguments hold values for:<br/>
+///     patientData, The patient to create<br/>
+ClassMethod createPatient(patientData As %Stream.Object) As %Stream.Object
+{
+     set patient = ##class(ehr.cls.Patient).%New()
+     set patient.FirstName = %request.Data("firstName", 1)
+     set patient.LastName = %request.Data("lastName", 1)
+     do patient.%Save()
+
+     set response = {}
+     set response.status = "ok"
+     set response.patientId = patient.%Id()
+     return response.%ToJSON()
 }
 
 }
