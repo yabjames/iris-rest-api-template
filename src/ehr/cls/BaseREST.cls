@@ -5,9 +5,9 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
     <Route Url="/_spec" Method="GET" Call="SwaggerSpec"/>
-    <Map Prefix="/patient" Forward="ehr.cls.PatientREST"/>
-    <Map Prefix="/message" Forward="ehr.cls.MessageREST"/>
-    <Map Prefix="/record" Forward="ehr.cls.HospitalRecordREST"/>
+    <!-- <Map Prefix="/patient" Forward="ehr.cls.PatientREST"/> -->
+    <!-- <Map Prefix="/message" Forward="ehr.cls.MessageREST"/> -->
+    <!-- <Map Prefix="/record" Forward="ehr.cls.HospitalRecordREST"/> -->
 </Routes>
 }
 
