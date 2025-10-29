@@ -1,5 +1,5 @@
 /// Business logic class defined by OpenAPI in ehr.Patient.spec<br/>
-/// Updated Oct 29, 2025 16:17:30
+/// Updated Oct 29, 2025 17:06:15
 Class ehr.Patient.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
@@ -26,6 +26,18 @@ ClassMethod submitForm(formData As %Stream.Object) As %Stream.Object
     Do ..%SetStatusCode($$$OK)
     //Do ..%SetHeader(<name>,<value>)
     //Quit (Place response here) ; response may be a string, stream or dynamic object
+}
+
+/// Fetches all patient data (e.g. 'firstName', 'lastName')
+ClassMethod getAllPatients() As %Stream.Object
+{
+    set result=[]
+    set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT id, FirstName, LastName FROM ehr_cls.Patient")
+        if (rs.%SQLCODE'=0) return rs.%SQLCODE
+        while rs.%Next() {
+            set result=result.%Push({"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName)})
+        }
+    return result
 }
 
 }

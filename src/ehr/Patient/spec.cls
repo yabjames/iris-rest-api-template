@@ -68,6 +68,52 @@ XData OpenAPI [ MimeType = application/json ]
             }
         }
     },
+    "/create":{
+        "post":{
+            "summary":"Send data to create a Patient on disk",
+            "operationId":"createPatient",
+            "parameters":[
+              {
+                "in":"body",
+                "name":"patientData",
+                "description":"The patient to create",
+                "schema":{
+                  "type":"object",
+                  "required":[
+                    "firstName",
+                    "lastName"
+                  ],
+                  "properties":{
+                    "firstName":{
+                      "type":"string"
+                    },
+                    "lastName":{
+                      "type":"string"
+                    }
+                  }
+                }
+              }
+            ],
+            "responses":{
+              "200":{
+                "description":"Form submitted successfully",
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "status":{
+                      "type":"string",
+                      "example":"success"
+                    },
+                    "message":{
+                      "type":"string",
+                      "example":"Form data received successfully."
+                    }
+                  }
+                }
+              }
+            }
+        }
+    },
     "/submit":{
       "post":{
         "summary":"Submit form data",
