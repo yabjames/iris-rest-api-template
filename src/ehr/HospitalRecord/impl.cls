@@ -41,10 +41,27 @@ ClassMethod getAllRecords() As %Stream.Object
 ///     location, The location part of the TZ identifier is usually a major city, island, or region (e.g. New_York, Berlin, Tokyo)<br/>
 ClassMethod getAllRecordsTZ(region As %String, location As %String) As %Stream.Object
 {
-    //(Place business logic here)
-    //Do ..%SetStatusCode(<HTTP_status_code>)
-    //Do ..%SetHeader(<name>,<value>)
-    //Quit (Place response here) ; response may be a string, stream or dynamic object
+    set sql = "SELECT Patient->id, Patient->FirstName, Patient->LastName, VisitDate FROM ehr_cls.HospitalRecord"
+    set rs = ##class(%SQL.Statement).%ExecDirect(,sql)
+    if (rs.%SQLCODE'=0) return rs.%SQLCODE
+
+    set response = []
+    while rs.%Next() {
+        set date = $ZDATETIME(rs.VisitDate, 8, 1)
+        set hl7 = $REPLACE(date, ":", "")
+        set hl7 = $REPLACE(hl7, " ", "")
+
+        set tz = region_"/"_location
+        set visitLocalDateTime = ##class(tz.Ens).TZ(hl7, "Etc/UTC", tz, "%Y-%m-%d %H:%M:%S")
+
+        set row = {}
+        set row.patientId = rs.id
+        set row.firstName = rs.FirstName
+        set row.lastName = rs.LastName
+        set row.visitDate = visitLocalDateTime
+        do response.%Push(row)
+    }
+    return response
 }
 
 /// Create a hospital record for a patient with a given patientId in UUID format<br/>
