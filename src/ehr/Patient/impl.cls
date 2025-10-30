@@ -1,5 +1,5 @@
 /// Business logic class defined by OpenAPI in ehr.Patient.spec<br/>
-/// Updated Oct 29, 2025 17:37:58
+/// Updated Oct 29, 2025 20:58:18
 Class ehr.Patient.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
@@ -35,7 +35,11 @@ ClassMethod getAllPatients() As %Stream.Object
     set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT id, FirstName, LastName FROM ehr_cls.Patient")
         if (rs.%SQLCODE'=0) return rs.%SQLCODE
         while rs.%Next() {
-            set result=result.%Push({"patientId": (rs.id), "firstName": (rs.FirstName), "lastName": (rs.LastName)})
+            set patient={}
+            set patient.patientId = rs.id
+            set patient.firstName = rs.FirstName
+            set patient.lastName = rs.LastName
+            do result.%Push(patient)
         }
     return result
 }
@@ -45,15 +49,14 @@ ClassMethod getAllPatients() As %Stream.Object
 ///     patientData, The patient to create<br/>
 ClassMethod createPatient(patientData As %Stream.Object) As %Stream.Object
 {
-     set patient = ##class(ehr.cls.Patient).%New()
-     set patient.FirstName = %request.Data("firstName", 1)
-     set patient.LastName = %request.Data("lastName", 1)
-     do patient.%Save()
+    set patient = ##class(ehr.cls.Patient).%New()
+    set patient.FirstName = %request.Data("firstName", 1)
+    set patient.LastName = %request.Data("lastName", 1)
+    do patient.%Save()
 
-     set response = {}
-     set response.status = "ok"
-     set response.patientId = patient.%Id()
-     return response.%ToJSON()
+    set response = {}
+    set response.patientId = patient.%Id()
+    return response
 }
 
 }

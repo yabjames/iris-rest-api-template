@@ -11,7 +11,7 @@ XData OpenAPI [ MimeType = application/json ]
   "swagger":"2.0",
   "info":{
     "version":"1.0.0",
-    "title":"Form Submission API"
+    "title":"Patient API"
   },
   "basePath":"/ehr/patient",
   "schemes":[
