@@ -22,3 +22,9 @@ You can get more specific documentation of the demo api that I built if you type
 ## Exporting impl.cls files after compiling spec files
 
 After compiling a spec file, the `impl` and `disp` are compiled and saved on the docker server. You can export them into your project files using `Ctrl+Shift+p > ObjectScript: Export Code from Server`. Make sure to uncheck all the files except the `impl` file you want. InterSystems preserves edits on `impl` classes when regenerated.
+
+## Debugging `impl` classes
+
+Source: https://docs.intersystems.com/components/csp/docbook/DocBook.UI.Page.cls?KEY=GVSCO_debug#GVSCO_debug_start
+
+The InterSystems vscode extension lets you configure and run debug sessions. I created an example debug config you can find in `.vscode/launch.json`.
