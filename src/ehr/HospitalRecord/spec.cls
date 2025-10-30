@@ -13,7 +13,7 @@ XData OpenAPI [ MimeType = application/json ]
         "version": "1.0.0",
         "title": "Hospital Records API"
     },
-    "basePath": "/ehr/record",
+    "basePath": "/crud/record",
     "schemes": [
         "http",
         "https"

@@ -13,7 +13,7 @@ XData OpenAPI [ MimeType = application/json ]
     "version":"1.0.0",
     "title":"Patient API"
   },
-  "basePath":"/ehr/patient",
+  "basePath":"/crud/patient",
   "schemes":[
     "http",
     "https"
