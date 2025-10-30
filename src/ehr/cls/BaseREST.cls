@@ -1,4 +1,4 @@
-Class ehr.cls.BaseREST Extends %CSP.REST
+Class ehr.cls.BaseREST Extends ehr.REST.Base
 {
 
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
@@ -20,8 +20,9 @@ ClassMethod SwaggerSpec() As %Status
     Set swagger.info.version = "0.1"
     Set swagger.host = "localhost:52773"
 
-    write swagger.%ToJSON()
-    return $$$OK
+    #; write swagger.%ToJSON()
+    #; return $$$OK
+    return ..%ProcessResult($$$OK, swagger)
 }
 
 }

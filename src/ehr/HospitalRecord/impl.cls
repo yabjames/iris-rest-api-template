@@ -9,10 +9,11 @@ Parameter ExposeServerExceptions = 0;
 /// Returns the OpenAPI 2.0 (Swagger) specification for this service.
 ClassMethod GetSpec() As %DynamicObject
 {
-    //(Place business logic here)
-    //Do ..%SetStatusCode(<HTTP_status_code>)
-    //Do ..%SetHeader(<name>,<value>)
-    //Quit (Place response here) ; response may be a string, stream or dynamic object
+    set specname=$p(..%ClassName(1),".impl")
+    Set spec = {}.%FromJSON(##class(%Dictionary.CompiledXData).%OpenId(specname_".spec||OpenAPI").Data)
+	Set url = $Select(%request.Secure:"https",1:"http") _ "://"_$Get(%request.CgiEnvs("SERVER_NAME")) _ ":" _ $Get(%request.CgiEnvs("SERVER_PORT")) _ %request.Application
+	Set spec.servers = [{"url" : (url)}]
+	Quit spec
 }
 
 /// Fetches all patient hospital records
